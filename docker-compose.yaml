@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql57
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pcexpress
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+      UPLOAD_LIMIT: 50M    # Aumenta el límite de carga a 50 MB
+      PHP_UPLOAD_LIMIT: 50M       
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
